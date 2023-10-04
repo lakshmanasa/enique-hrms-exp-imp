@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="patch-leave-Flow" doc:id="f6e86481-d154-44f0-8c66-e6988bc30ba7" >
+		<ee:transform doc:name="Sending path,method as variables" doc:id="c40259ee-0f7f-411f-bf0e-85ecd9f88f54" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="method" ><![CDATA['PATCH']]></ee:set-variable>
+				<ee:set-variable variableName="path" ><![CDATA[Mule::p('system.path.leavePatch')]]></ee:set-variable>
+				<ee:set-variable variableName="uriParams" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.uriParams]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process layer" doc:id="d7cf12d9-ed5c-4db5-bd1b-0a2ae9f10f2a" name="salesforce-sys-api-request" />
+		<ee:transform doc:name="Output" doc:id="5b1866cd-b4da-4c10-8400-ba3234acd5ee" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="globalErrorHandlerError_Handler" />
+	</flow>
+	<flow name="postapply-leave-Flow" doc:id="638a5e5e-ff1d-45a8-ba22-e73f3421a013" >
+		<ee:transform doc:name="Sending path,method as variables" doc:id="c1d39137-05b0-4044-b680-122857d81a87" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="method" ><![CDATA['POST']]></ee:set-variable>
+				<ee:set-variable variableName="path" ><![CDATA[Mule::p('system.path.postLeave')]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process layers" doc:id="abb2207f-f0d3-4986-9a45-17d950c1ab43" name="salesforce-sys-api-request" />
+		<ee:transform doc:name="Output" doc:id="7f6d4f4d-88c9-4507-9ca2-449ffc2beef0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="globalErrorHandlerError_Handler" />
+	</flow>
+</mule>

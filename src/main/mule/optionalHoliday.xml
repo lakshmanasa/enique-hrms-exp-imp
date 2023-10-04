@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="optionalholidayapiFlow" doc:id="74ffba9e-d353-4593-976b-4d5f4efae9f3" >
+		<ee:transform doc:name="Sending path,method as variables" doc:id="45795cc8-142d-4c40-884c-bac6a6880b68" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="method" ><![CDATA['POST']]></ee:set-variable>
+				<ee:set-variable variableName="path" ><![CDATA[Mule::p('system.path.optionalHoliday')]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process layers" doc:id="bbc14f30-6a89-44b9-9e11-72c7f6537bfa" name="salesforce-sys-api-request" />
+		<ee:transform doc:name="Output" doc:id="f7fecb21-5698-4492-98f7-79c9763f7b78" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="globalErrorHandlerError_Handler" />
+	</flow>
+</mule>

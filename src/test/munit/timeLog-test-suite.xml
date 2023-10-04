@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="timeLog-test-suite.xml" />
+	<munit:test name="timeLog-test-suite-timeLogPostFlowTest" doc:id="bd36b012-b86e-4ca1-812d-329e788b0b24" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="367de0e5-0d15-4a72-9e59-6d77221342f7" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b6789b0f-ac41-41a6-99ae-0d8de63c430c" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://timeLog/output.dwl')]" mediaType="application/java" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="17d629cb-52fe-4702-b94f-4196cef61219" >
+				<munit:payload value="#[readUrl('classpath://timeLog/output.dwl')]" />
+				<munit:attributes value="#[ { &quot;queryParams&quot;:{&quot;soqlWhereClause&quot;: &quot;employeeId__c='ES000027'&quot;}}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to timeLogPostFlow" doc:id="7a1fb105-6be9-47f4-a215-e627abd0a299" name="timeLogPostFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="311d9ad8-6699-47fe-8125-3d414aa2ca7d" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -1,0 +1,18 @@
+e:
+ port: "8081"
+ 
+system:
+ host: "enique-papi-cloud.us-e2.cloudhub.io"
+ port: "80"
+ basepath: "/api/v1/papi"
+ path:
+  addFormerEmployeeRecord: "/formerEmployee"
+  applicantRecordsToEmp: "/employeerecord"
+  leavePatch: "/applyLeave/{id}"
+  postLeave: "/postLeave"
+  timeLog: "/submitattendance"
+  compensations: "/compensation/{id}"
+  optionalHoliday: "/optionalHoliday"
+  sendNotification: "/sendNotification"
+  patchApplyLeave: "/applyLeave/{id}"
+  regularization: "/regularization/{id}"

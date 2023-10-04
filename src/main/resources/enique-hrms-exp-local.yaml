@@ -1,0 +1,18 @@
+e:
+ port: "8083"
+ 
+system:
+ host: "localhost"
+ port: "8081"
+ basepath: "/api/v1/papi"
+ path:
+  addFormerEmployeeRecord: "/formerEmployee"
+  applicantRecordsToEmp: "/employeerecord"
+  leavePatch: "/applyLeave/{id}"
+  postLeave: "/postLeave"
+  timeLog: "/submitattendance"
+  compensations: "/compensation/{id}"
+  optionalHoliday: "/optionalHoliday"
+  sendNotification: "/sendNotification"
+  patchApplyLeave: "/applyLeave/{id}"
+  regularization: "/regularization/{id}"
